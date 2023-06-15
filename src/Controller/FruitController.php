@@ -66,4 +66,27 @@ class FruitController extends AbstractController
             'message' => 'fruit removed successfully',
         ], Response::HTTP_OK);
     }
+
+    #[Route('/fruit-search', name: 'fruit_search', methods: ['GET'])]
+    public function search(Request $request): JsonResponse
+    {
+        $quantity = $request->query->get('quantity');
+        $name     = $request->query->get('name');
+        $unit     = $request->query->get('unit') ?? ItemConstant::GRAM_UNIT;
+
+        $fruits = $this->fruitHandlerService->search([
+            'name' => $name,
+            'quantity' => $quantity
+        ], $unit);
+
+        if (empty($fruits)) {
+            return $this->json([
+                'message' => 'There is no fruit with this search criteria',
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+       return $this->json([
+               'fruits' => $fruits
+       ], Response::HTTP_OK);
+    }
 }

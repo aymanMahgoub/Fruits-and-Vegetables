@@ -28,7 +28,7 @@ class FruitHandlerService extends StorageHandler
      */
     public function save(array $data): void
     {
-        $fruit = $this->search($data[ItemConstant::NAME]);
+        $fruit = $this->fruitRepository->findByName($data[ItemConstant::NAME]);
         if ($fruit instanceof Fruit) {
             $quantity = $this->getGramQuantity($data[ItemConstant::QUANTITY], $data[ItemConstant::UNIT]);
             $fruit->setQuantity($fruit->getQuantity() + $quantity);
@@ -79,11 +79,13 @@ class FruitHandlerService extends StorageHandler
     {
        $fruits = $this->fruitRepository->findAll();
        $list = [];
+        $isGramUnit = $unit === ItemConstant::kILO_GRAM_UNIT;
        /** @var Fruit $fruit */
         foreach ($fruits as $fruit) {
            $list[] = [
                'name'     => $fruit->getName(),
-               'quantity' => $unit === ItemConstant::kILO_GRAM_UNIT ? $fruit->getQuantity() / 1000 : $fruit->getQuantity()
+               'quantity' => $isGramUnit ? $fruit->getQuantity() : $fruit->getQuantity() / 1000,
+               'unit'     => $isGramUnit ? ItemConstant::GRAM_UNIT : ItemConstant::kILO_GRAM_UNIT,
            ];
        }
 
@@ -91,11 +93,27 @@ class FruitHandlerService extends StorageHandler
     }
 
     /**
-     * @param String $name
-     * @return Fruit|null
+     * @param array $criteria
+     * @param string $unit
+     * @return array|null
      */
-    public function search(String $name): ?Fruit
+    public function search(array $criteria, string $unit): ?array
     {
-        return $this->fruitRepository->findByName($name);
+        $fruits = $this->fruitRepository->findBy($criteria);
+
+        $searchResult = [];
+        if (!empty($fruits)) {
+            $isGramUnit = $unit === ItemConstant::kILO_GRAM_UNIT;
+            /** @var Fruit $fruit */
+            foreach ($fruits as $fruit) {
+                $searchResult[] = [
+                    'name'     => $fruit->getName(),
+                    'quantity' => $isGramUnit ? $fruit->getQuantity() : $fruit->getQuantity() / 1000,
+                    'unit'     => $isGramUnit ? ItemConstant::GRAM_UNIT : ItemConstant::kILO_GRAM_UNIT,
+                ];
+            }
+        }
+
+        return  $searchResult;
     }
 }
