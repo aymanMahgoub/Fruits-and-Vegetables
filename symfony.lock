@@ -1,4 +1,40 @@
 {
+    "doctrine/annotations": {
+        "version": "1.14",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.10",
+            "ref": "64d8583af5ea57b7afa4aba4b159907f3a148b05"
+        }
+    },
+    "doctrine/mongodb-odm-bundle": {
+        "version": "4.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "4.4",
+            "ref": "a6bc3544da98c97b2eafb2ef1e86bcc8093d96cf"
+        },
+        "files": [
+            "config/packages/doctrine_mongodb.yaml",
+            "src/Document/.gitignore"
+        ]
+    },
+    "phpunit/phpunit": {
+        "version": "9.6",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "9.3",
+            "ref": "a6249a6c4392e9169b87abf93225f7f9f59025e6"
+        },
+        "files": [
+            ".env.test",
+            "phpunit.xml.dist",
+            "tests/bootstrap.php"
+        ]
+    },
     "symfony/console": {
         "version": "6.2",
         "recipe": {
@@ -40,6 +76,30 @@
             "public/index.php",
             "src/Controller/.gitignore",
             "src/Kernel.php"
+        ]
+    },
+    "symfony/maker-bundle": {
+        "version": "1.49",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
+        }
+    },
+    "symfony/phpunit-bridge": {
+        "version": "6.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.3",
+            "ref": "819d3d2ffa4590eba0b8f4f3e5e89415ee4e45c3"
+        },
+        "files": [
+            ".env.test",
+            "bin/phpunit",
+            "phpunit.xml.dist",
+            "tests/bootstrap.php"
         ]
     },
     "symfony/routing": {
